@@ -30,9 +30,24 @@ THEOREM GCD3 == \A m, n \in Nat \ {0} : (n > m) => (GCD(m, n) = GCD(m, n-m))
                         n > m
                  PROVE  GCD(m, n) = GCD(m, n-m)
         OBVIOUS
-    <1> \A i \in Int : (Divides(i, m) /\ Divides(i, n)) <=> (Divides(i, m) /\ Divides(i, n - m))
-        BY DEF Divides
+(* 
+         PROVE  \A i \in Int :
+          (\E q \in Int : m = i * q) /\ (\E q \in Int : n = i * q)
+          <=> (\E q \in Int : m = i * q) /\ (\E q \in Int : n - m = i * q) 
+*)
+    <1>1 ASSUME NEW i \in Int, NEW q \in Int, m = i*q, NEW r \in Int, n = i*r
+         PROVE \E z \in Int : n - m = i*z
+         <2>1 r-q \in Int /\ n-m = i*(r-q)
+            BY <1>1
+            <2> QED BY <2>1
+    <1>2 ASSUME NEW i \in Int, NEW q \in Int, m = i*q, NEW r \in Int, n-m = i*r
+         PROVE \E z \in Int : n = i*z
+         <2>1 r+q \in Int /\ n = i*(r+q)
+            BY <1>2
+         <2> QED BY <2>1
     <1> QED
-        BY DEF GCD, SetMax, DivisorsOf
+        BY <1>1, <1>2 DEF GCD, SetMax, DivisorsOf, Divides
+        
+
 
 =============================================================================
